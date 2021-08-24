@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TodoApp</string>
+    <string name="home_hello">안녕하세요\nAndroid Practice Todo App</string>
 </resources>

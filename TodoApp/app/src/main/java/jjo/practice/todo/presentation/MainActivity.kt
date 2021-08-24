@@ -1,7 +1,8 @@
-package jjo.practice.todo
+package jjo.practice.todo.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import jjo.practice.todo.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
