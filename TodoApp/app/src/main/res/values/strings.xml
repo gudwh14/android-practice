@@ -2,4 +2,6 @@
     <string name="app_name">TodoApp</string>
     <string name="home_hello">안녕하세요\nAndroid Practice Todo App</string>
     <string name="todo_add">ADD TODO</string>
+    <string name="menu_home">홈</string>
+    <string name="menu_todo">할일</string>
 </resources>
