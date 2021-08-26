@@ -4,4 +4,11 @@
     <string name="todo_add">ADD TODO</string>
     <string name="menu_home">홈</string>
     <string name="menu_todo">할일</string>
+    <string name="dialog_title">할일 추가하기</string>
+    <string name="dialog_date">날짜 : </string>
+    <string name="dialog_todo">할일 : </string>
+    <string name="dialog_date_hint">20210826</string>
+    <string name="dialog_todo_hint">산책하기</string>
+    <string name="dialog_ok">등록</string>
+    <string name="dialog_cancel">취소</string>
 </resources>
