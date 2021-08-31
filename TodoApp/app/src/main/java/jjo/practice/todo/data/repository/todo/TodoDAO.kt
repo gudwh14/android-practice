@@ -1,10 +1,7 @@
 package jjo.practice.todo.data.repository.todo
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
 import jjo.practice.todo.data.model.TodoEntity
 
 @Dao
@@ -16,6 +13,9 @@ interface TodoDAO {
 
     @Query("SELECT * FROM todo")
     fun getAll() : List<TodoEntity>
+
+    @Update
+    fun update(todo : TodoEntity)
 
     @Delete
     fun delete(todo : TodoEntity)

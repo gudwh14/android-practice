@@ -9,5 +9,5 @@ data class TodoEntity(
     @PrimaryKey(autoGenerate = true) val id : Long?,
     @ColumnInfo(name = "date") val date : String,
     @ColumnInfo(name = "todo") val todo : String,
-    @ColumnInfo(name = "status") val status : Boolean = false
+    @ColumnInfo(name = "status") var status : Boolean = false
 )
