@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TodoApp">
         <activity
+            android:name=".presentation.home.UserEditActivity"
+            android:exported="true" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>

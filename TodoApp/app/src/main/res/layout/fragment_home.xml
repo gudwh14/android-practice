@@ -5,7 +5,11 @@
     <data>
         <variable
             name="user"
-            type="jjo.practice.todo.data.model.UserEntity" />
+            type="jjo.practice.todo.data.model.UserEntity"/>
+
+        <variable
+            name="viewModel"
+            type="jjo.practice.todo.presentation.home.HomeFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -52,6 +56,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView3" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/editUser_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_home_user"
+            android:onClick="@{viewModel.onClickEditButton}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
