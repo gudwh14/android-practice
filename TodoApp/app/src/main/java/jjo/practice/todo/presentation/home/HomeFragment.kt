@@ -10,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import jjo.practice.todo.R
 import jjo.practice.todo.data.model.UserEntity
 import jjo.practice.todo.databinding.FragmentHomeBinding
+import jjo.practice.todo.presentation.user.UserViewModel
 
 class HomeFragment : Fragment() {
     /* ViewBinding 이용하기
@@ -23,6 +25,14 @@ class HomeFragment : Fragment() {
 
     private lateinit var dataBinding : FragmentHomeBinding
 
+    // liveData 선언
+    /*private val liveData : MutableLiveData<UserEntity> by lazy {
+        MutableLiveData<UserEntity>()
+    }*/
+
+    // ViewModel 선언
+    val model : UserViewModel by viewModels()
+
     // startActivityForResult 는 deprecated 되었기 때문에 AndroidX , fragment 에서는 이렇게 사용한다.
     val requestActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         it->
@@ -30,16 +40,11 @@ class HomeFragment : Fragment() {
             val intent = it.data
             // null 체크를 해줘야한다.
             if(intent != null) {
-                val user : UserEntity = liveData.value!!
+                val user : UserEntity = model.getValue()!!
                 user.userName = intent.getStringExtra("userName")!!
-                liveData.value = user
+                model.setValue(user)
             }
         }
-    }
-
-    // liveData 선언
-    private val liveData : MutableLiveData<UserEntity> by lazy {
-        MutableLiveData<UserEntity>()
     }
 
     override fun onCreateView(
@@ -62,27 +67,27 @@ class HomeFragment : Fragment() {
             dataBinding.user = it
         }
 
-        liveData.observe(viewLifecycleOwner,liveDataObserver)
+        model.getLiveData().observe(viewLifecycleOwner,liveDataObserver)
 
-        if(liveData.value == null) {
+        /*if(model.liveData.value == null) {
             onFetchUser()
-        }
+        }*/
     }
 
-    private fun onFetchUser() {
+   /* private fun onFetchUser() {
         val user : UserEntity = UserEntity("JJo")
-        /* ViewBinding 을 이용해서 UI Update
-        binding.tvHomeUser.text = user.userName */
+//         ViewBinding 을 이용해서 UI Update
+//        binding.tvHomeUser.text = user.userName
+//
+//         DataBinding 을 이용해서 UI Update
+//        dataBinding.user = user
 
-        /* DataBinding 을 이용해서 UI Update
-        dataBinding.user = user
-         */
 
-        liveData.value = user
-    }
+        model.liveData.value = user
+    }*/
 
     fun onClickEditButton(view : View) {
-        val user : UserEntity = liveData.value!!
+        val user : UserEntity = model.getValue()!!
         val intent = Intent(context,UserEditActivity::class.java)
         intent.putExtra("userName",user.userName)
         // activity 를 부를때는 launch 를 사용함.
