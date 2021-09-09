@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import jjo.practice.todo.R
 import jjo.practice.todo.data.model.UserEntity
 import jjo.practice.todo.databinding.FragmentHomeBinding
@@ -20,7 +22,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!*/
 
     private lateinit var dataBinding : FragmentHomeBinding
-    private lateinit var user : UserEntity
 
     // startActivityForResult 는 deprecated 되었기 때문에 AndroidX , fragment 에서는 이렇게 사용한다.
     val requestActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -29,10 +30,16 @@ class HomeFragment : Fragment() {
             val intent = it.data
             // null 체크를 해줘야한다.
             if(intent != null) {
+                val user : UserEntity = liveData.value!!
                 user.userName = intent.getStringExtra("userName")!!
-                dataBinding.user = user
+                liveData.value = user
             }
         }
+    }
+
+    // liveData 선언
+    private val liveData : MutableLiveData<UserEntity> by lazy {
+        MutableLiveData<UserEntity>()
     }
 
     override fun onCreateView(
@@ -48,17 +55,34 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dataBinding.viewModel = this
-        onFetchUser()
+
+        // UI Update 코드는 Observer 안으로 들어오게된다.
+        // data 관점으로 코드를 관리 할 수 있다.
+        val liveDataObserver = Observer<UserEntity> { it ->
+            dataBinding.user = it
+        }
+
+        liveData.observe(viewLifecycleOwner,liveDataObserver)
+
+        if(liveData.value == null) {
+            onFetchUser()
+        }
     }
 
     private fun onFetchUser() {
-        user = UserEntity("JJo")
+        val user : UserEntity = UserEntity("JJo")
         /* ViewBinding 을 이용해서 UI Update
         binding.tvHomeUser.text = user.userName */
+
+        /* DataBinding 을 이용해서 UI Update
         dataBinding.user = user
+         */
+
+        liveData.value = user
     }
 
     fun onClickEditButton(view : View) {
+        val user : UserEntity = liveData.value!!
         val intent = Intent(context,UserEditActivity::class.java)
         intent.putExtra("userName",user.userName)
         // activity 를 부를때는 launch 를 사용함.
